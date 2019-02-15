@@ -18,11 +18,11 @@ import {
 } from 'native-base';
 
 const playersData = [{
-    "player_name": "David Ferrer",
-    "skillLevel": 1.5,
-    "sex": "male",
-    "image": "http://resources3.news.com.au/images/2011/01/28/1225996/397507-david-ferrer.jpg"
-  },
+  "player_name": "David Ferrer",
+  "skillLevel": 1.5,
+  "sex": "male",
+  "image": "http://resources3.news.com.au/images/2011/01/28/1225996/397507-david-ferrer.jpg"
+},
   {
     "player_name": "Roberto Carballes Baena",
     "skillLevel": 2.5,
@@ -112,10 +112,10 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     console.disableYellowBox = true;
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+    console.log(playersData);
     this.state = {
       players: ds.cloneWithRows(playersData),
-      newResults: [],
       searchText: '',
       isFilterOpen: false,
       sex: '',
@@ -124,13 +124,11 @@ export default class App extends Component {
   }
 
   _filterBy = (key, value) => {
-    console.log(key, value)
-    let {players, newResults} = this.state;
-    newResults = newResults.filter(player => player[key] == value)
-    console.log(newResults);
+    let {players} = this.state;
+    const newResults = playersData.filter(player => player[key] == value)
     this.setState({
       [key]: value,
-      players: players.cloneWithRows(newResults),
+      players: players.cloneWithRows((value != '') ? newResults : playersData),
     })
   }
 
@@ -186,7 +184,7 @@ export default class App extends Component {
                   iosIcon={<Icon name="arrow-down" />}
                   style={{width: '50%'}}
                   selectedValue={skillLevel}
-                  onValueChange={(value) => this._filterBy.bind(this, 'skillLevel', value)}
+                  onValueChange={this._filterBy.bind(this, 'skillLevel')}
                 >
                   <Picker.Item label="Filter By Skill Level" value="" />
                   <Picker.Item label="1.0" value="1.0" />
